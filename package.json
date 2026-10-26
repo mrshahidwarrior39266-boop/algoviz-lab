@@ -1,0 +1,30 @@
+{
+  "name": "algoviz-lab",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "AlgoViz — an interactive sorting algorithm laboratory, race arena and debugging dojo.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "test": "node --test tests/"
+  },
+  "engines": {
+    "node": ">=18.18.0"
+  },
+  "dependencies": {
+    "@monaco-editor/react": "^4.7.0",
+    "monaco-editor": "^0.52.2",
+    "next": "15.5.28",
+    "next-auth": "^4.24.15",
+    "posthog-js": "1.438.13",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "zustand": "^5.0.16"
+  },
+  "overrides": {
+    "postcss": "^8.5.31",
+    "sharp": "^0.35.5"
+  }
+}

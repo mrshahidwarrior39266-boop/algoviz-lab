@@ -1,0 +1,11 @@
+.freebuff
+.vercel-inspect
+.env
+.env.local
+.env.*.local
+dev.log
+prod.log
+live-home.html
+coverage
+node_modules
+.next
