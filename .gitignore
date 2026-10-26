@@ -42,3 +42,6 @@ coverage/
 .env*
 !.env.example
 .oauth-inspect/
+
+# local server runtime state
+start.pid

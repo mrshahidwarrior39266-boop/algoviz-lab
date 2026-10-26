@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useLearningStore } from '@/store/useLearningStore';
 import { getLevel } from '@/lib/progress';
 import AuthButton from './AuthButton';
@@ -18,13 +19,13 @@ export default function Header({ active, onNavigate }) {
   return (
     <header className="site-header">
       <div className="header-inner">
-        <button type="button" className="brand" onClick={() => onNavigate('lab')}>
+        <Link href="/" className="brand" title="Back to the landing page">
           <BrandMark />
           <span className="brand-type">
             <strong>AlgoViz</strong>
             <small>algorithm laboratory</small>
           </span>
-        </button>
+        </Link>
 
         <nav className="main-nav" aria-label="Sections">
           {TABS.map((tab) => (

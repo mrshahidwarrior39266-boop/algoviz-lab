@@ -88,9 +88,14 @@ export default function AlgoVizApp() {
         <p>
           Built for curious students. Traces are generated locally; progress lives in this browser.
         </p>
-        <button type="button" className="footer-link" onClick={() => navigate('lab')}>
-          Back to the lab ↑
-        </button>
+        <nav className="footer-nav" aria-label="Footer">
+          <a className="footer-link" href="/">
+            Landing page ↑
+          </a>
+          <button type="button" className="footer-link" onClick={() => navigate('lab')}>
+            Back to the lab ↑
+          </button>
+        </nav>
       </footer>
     </div>
   );

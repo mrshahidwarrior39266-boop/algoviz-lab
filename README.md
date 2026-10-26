@@ -8,6 +8,7 @@ algorithms on the same array, and asks them to debug broken invariants.
 
 | Feature | Where |
 | --- | --- |
+| Scroll-story landing page that replays a real trace on a canvas | `/` |
 | Editable Monaco sandbox with a traced Web Worker | **Lab → Code workbench** |
 | Comparisons, writes, swaps, recursion depth, Big-O badges, efficiency meter | **Lab → telemetry HUD** |
 | Four-language lesson tabs: JavaScript, Python, C++, Java (JS is editable) | **Lab → Code workbench** |
@@ -85,13 +86,16 @@ sanitization, snippet anchors and badge logic.
 
 ```
 app/
-  page.js                 application shell
+  page.js                 landing page: scroll-story canvas + room links
+  app/page.js             application shell (lab / race / debug / progress)
   layout.js               metadata + providers
   api/auth/[...nextauth]  NextAuth Google route
   signin/page.js          configuration-aware sign-in page
   globals.css             design system
-  AnalyticsConsent.js     consent-gated analytics bar (hidden until configured)
 components/
+  LandingStory.js         sticky canvas sequence, chapters, live counters
+  RouteForward.js         sends legacy /#lab hashes to /app#lab
+  AnalyticsConsent.js     consent-gated analytics bar (hidden until configured)
   LabScreen.js            visualizer, playback, lesson completion, share hash
   CodeWorkbench.js        Monaco, language tabs, active-line sync, sandbox execution
   RaceScreen.js           contenders, work-clock playback, winner analysis
@@ -107,6 +111,10 @@ store/
 tests/
   algorithms.test.mjs     verification suite
 ```
+
+The landing page lives at `/`; the application lives at `/app` with in-app hash tabs
+(`/app#lab`, `/app#race`, `/app#debug`, `/app#progress`). Share links and old `/#lab?...` URLs
+keep working: the landing page forwards them to `/app` on load and on hash change.
 
 The built-in algorithm traces and the student sandbox are deliberately separate: built-in traces
 are deterministic and fully language-synchronized; sandbox traces are inferred from reads and

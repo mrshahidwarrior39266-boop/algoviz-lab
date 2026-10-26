@@ -27,6 +27,10 @@ OAuth wiring, deployment and repository hygiene.
 | `node posthog-analytics.verify.mjs` (11 tests / 88 assertions) | **Pass** — consent gate, event allowlist, no network delivery |
 | Production deploy (`https://algoviz-lab-chi.vercel.app`) | **Pass** — `/`, `/signin`, `/api/auth/providers`, `/api/auth/csrf` all 200 with correct content types; JS chunk 200; security headers present |
 | Production live playback | **Pass** — stepping updates the HUD (C=5, W=8, S=4 after 10 steps), efficiency meter 100%→91%, share hash tracks `step=10`; **zero console errors** |
+| Landing page restored at `/` | **Pass** — canvas paints the real 105-frame bubble trace; chapters advance at 0/0.24/0.5/0.76 progress; HUD counters track the frame (17→30→50 comparisons across scroll) |
+| Landing → app navigation | **Pass** — CTA opens `/app#lab?...` with full share params; app brand returns to `/`; footer/sign-in links resolve; `/signin` back link goes to `/app` |
+| Legacy share links `/#race?...` | **Pass** — forwarded to `/app#race?...` on full load **and** on hash-only change |
+| Landing at 375 px | **Pass** — 0 px horizontal overflow, nav 69 px, 6 room cards, sign-in kept visible |
 
 Google sign-in could not complete end-to-end because no usable Google OAuth client secret exists
 anywhere reachable from this environment:
@@ -77,6 +81,16 @@ redeployed, the button activates (no code change needed).
     in a build that has none; its copy was also corrected from "this story" to AlgoViz.
 13. **`.gitignore` ended with `.env*`, which would have excluded `.env.example`** from the
     repository. A `!.env.example` exception (and `.oauth-inspect/`) was added.
+14. **The landing page was missing from the workspace entirely** (`app/page.js` imported a
+    `ScrollSequence` component that was never shipped, so the original repo could not build).
+    It was rebuilt as a scroll-driven canvas sequence at `/`, with the application moved to
+    `/app` and every page linked both ways.
+15. **The scroll story only redrew inside `requestAnimationFrame`**, which does not fire in
+    backgrounded or headless tabs — the story froze exactly when a visitor scrolled back to it.
+    Scroll updates are now time-throttled with a guaranteed trailing repaint.
+16. **Landing hash links did not forward** because changing only the hash never remounts the
+    page. The forwarder now also listens for `hashchange`, so old `/#lab?...` links work both
+    on first load and while the landing page is open.
 
 ## Remaining limitations (known, not silently ignored)
 

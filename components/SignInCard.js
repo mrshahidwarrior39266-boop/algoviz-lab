@@ -37,7 +37,7 @@ export function SignInCard({ configured, callbackUrl }) {
 
   return (
     <section className="signin-card" aria-labelledby="signin-title">
-      <Link href="/" className="signin-back">
+      <Link href="/app" className="signin-back">
         <span aria-hidden="true">←</span> Back to the lab
       </Link>
 
